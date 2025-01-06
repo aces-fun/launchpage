@@ -3,53 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+    <title>Email & G Suite Services</title>
     <style>
         body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* Adjusted to match a black background, update as needed */
-            color: #333; /* White text for contrast */
+            font-family: sans-serif;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        section {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .service-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .service-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .service-card ul {
+            list-style: none;
             padding: 0;
         }
 
-        /* Style for the top image */
-        .top-image {
-            margin-top: 50px; /* Padding from the top */
+        .service-card li {
+            margin-bottom: 5px;
         }
 
-        .top-image img {
-            width: 200px; /* Adjust width if needed */
-            max-width: 100%; /* Keeps it responsive */
-        }
-
-        h1 {
-            margin-top: 40px;
-            font-size: 3rem;
-        }
-
-        p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        a {
-            text-decoration: none;
-            color: #ffcc00; /* Yellow accent link */
-            font-size: 1.2rem;
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <!-- Top Image -->
-    <div class="top-image">
-        <img src="https://aces.fun/images/aceslg.png" alt="Aces Logo">
-    </div>
 
-    <!-- Main Content -->
-    <h1>River Coming Soon!</h1>
-    <p>Flop it like it's hot</p>
-    <a href="mailto:pocket@aces.fun">Pocket Aces</a>
+    <header>
+        <h1>Email & G Suite Services</h1>
+    </header>
+
+    <section>
+        <div class="service-card">
+            <h2>Email Hosting</h2>
+            <ul>
+                <li>Reliable and secure email</li>
+                <li>Large mailbox storage</li>
+                <li>Spam and virus protection</li>
+                <li>Custom domain support</li>
+                <li>Affordable pricing</li>
+            </ul>
+            <button>Learn More</button>
+        </div>
+
+        <div class="service-card">
+            <h2>G Suite Essentials</h2>
+            <ul>
+                <li>Professional email addresses</li>
+                <li>Google Drive for file storage and sharing</li>
+                <li>Google Calendar for scheduling and collaboration</li>
+                <li>Google Meet for video conferencing</li>
+                <li>Enhanced security features</li>
+            </ul>
+            <button>Get Started</button>
+        </div>
+
+        <div class="service-card">
+            <h2>G Suite Business</h2>
+            <ul>
+                <li>All the features of G Suite Essentials</li>
+                <li>Advanced security and administration tools</li>
+                <li>Increased storage and data controls</li>
+                <li>Support for larger businesses</li>
+            </ul>
+            <button>Contact Us</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Your Company Name</p>
+    </footer>
+
 </body>
 </html>
