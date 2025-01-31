@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Aces.fun landing page</title>
+    <title>Floating Logos Landing Page</title>
     <style>
         @font-face {
             font-family: 'Spray Letter';
@@ -267,9 +267,41 @@
         let newLogos = [];
         let isExiting = false;
         let lastRefreshTime = Date.now();
-        const refreshInterval = 9000; // 9 seconds
+        const refreshInterval = 99000; // 99 seconds
 
-      
+        // Animation loop
+        function animate() {
+            const currentTime = Date.now();
+            const timeSinceRefresh = currentTime - lastRefreshTime;
+
+            if (timeSinceRefresh >= refreshInterval && !isExiting) {
+                isExiting = true;
+                newLogos = createWebLayout(); // Create new logos immediately
+                setTimeout(() => {
+                    logos = logos.filter(logo => {
+                        if (logo.y > window.innerHeight + 100) {
+                            logo.element.remove();
+                            return false;
+                        }
+                        return true;
+                    });
+                    isExiting = false;
+                    lastRefreshTime = Date.now();
+                }, 2000); // Longer cleanup time for smoother transition
+            }
+
+            if (isExiting) {
+                // Update exit animations for old logos
+                logos.forEach(logo => logo.exit());
+                // Update entrance animations for new logos
+                newLogos.forEach(logo => logo.update(mouseX, mouseY, currentTime));
+            } else {
+                // Normal update for current set
+                logos.forEach(logo => logo.update(mouseX, mouseY, currentTime));
+            }
+
+            requestAnimationFrame(animate);
+        }
 
         animate();
 
