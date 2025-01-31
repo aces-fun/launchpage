@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Aces.fun landing page</title>
+    <title>Aces.fun Landing Page</title>
     <style>
         @font-face {
             font-family: 'Spray Letter';
@@ -16,7 +16,7 @@
             padding: 0;
             overflow: hidden;
             background: white;
-            font-family: 'YourFontName', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         .header {
             position: fixed;
@@ -44,10 +44,9 @@
         }
         .logo {
             position: absolute;
-            opacity: 0.9;
-            transition: transform 0.3s ease-out;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
             will-change: transform;
-            transition: transform 0.05s linear;
         }
         .container {
             position: absolute;
@@ -68,7 +67,6 @@
     <script>
         class FloatingLogo {
             constructor(type, baseX, baseY, size) {
-                this.exitDirection = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
                 this.element = document.createElement('img');
                 this.element.className = 'logo';
                 this.element.src = type === 1 ? 'https://aces.fun/images/ACES-logo-01.png' : 'https://aces.fun/images/ACES-logo-02.png';
@@ -81,48 +79,46 @@
                 this.baseX = baseX;
                 this.baseY = baseY;
                 this.x = baseX;
-                this.y = -100; // Start above viewport
+                this.y = -100;
                 
                 // Movement properties
                 this.offsetX = 0;
                 this.offsetY = 0;
-                this.maxOffset = size * 0.5; // Increased movement range relative to size
+                this.maxOffset = size * 0.5;
                 
                 // Animation properties
                 this.angle = Math.random() * Math.PI * 2;
-                this.angleSpeed = 0.001 + (Math.random() * 0.002); // Increased movement speed
+                this.angleSpeed = 0.001 + (Math.random() * 0.002);
                 this.amplitude = this.maxOffset * 0.5;
                 
                 // Entry animation
                 this.entering = true;
                 this.entranceProgress = 0;
-                this.entranceDelay = Math.random() * 1000; // Stagger entrance
-                this.entranceStartTime = Date.now() + this.entranceDelay;
+                this.startY = -200 - (Math.random() * 300); // Random starting heights above viewport
+                this.y = this.startY;
+                this.element.style.opacity = '0.9'; // Start visible for entrance animation
                 
                 document.querySelector('.container').appendChild(this.element);
             }
 
             update(mouseX, mouseY, time) {
                 if (this.entering) {
-                    if (time < this.entranceStartTime) return;
-                    
-                    this.entranceProgress += 0.01;
+                    // Faster entrance animation
+                    this.entranceProgress += 0.02;
                     if (this.entranceProgress >= 1) {
                         this.entering = false;
                     }
                     
+                    // Smooth fall from starting position
                     const progress = easeOutCubic(this.entranceProgress);
-                    this.y = lerp(-100, this.baseY, progress);
-                    this.x = this.baseX;
+                    this.y = lerp(this.startY, this.baseY, progress);
+                    this.x = lerp(this.x, this.baseX, progress);
                 } else {
-                    // Subtle autonomous movement
                     this.angle += this.angleSpeed;
                     
-                    // Calculate base movement
                     this.offsetX = Math.cos(this.angle) * this.amplitude;
                     this.offsetY = Math.sin(this.angle) * this.amplitude;
                     
-                    // Mouse influence
                     const dx = mouseX - (this.baseX + this.size/2);
                     const dy = mouseY - (this.baseY + this.size/2);
                     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -133,7 +129,6 @@
                         this.offsetX += dx * factor;
                         this.offsetY += dy * factor;
                         
-                        // Limit maximum offset
                         const currentOffset = Math.sqrt(this.offsetX * this.offsetX + this.offsetY * this.offsetY);
                         if (currentOffset > this.maxOffset) {
                             const scale = this.maxOffset / currentOffset;
@@ -142,34 +137,31 @@
                         }
                     }
                     
-                    // Update position
                     this.x = this.baseX + this.offsetX;
                     this.y = this.baseY + this.offsetY;
                 }
 
-                // Apply position
-                // For regular updates, maintain the normal transform
                 this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
             }
 
             exit() {
                 this.entering = false;
                 const centerX = window.innerWidth / 2;
-                const speed = 15;
+                const speed = 20; // Increased exit speed
                 
-                // Move towards center as they fall
+                // Stronger center pull
                 const distanceFromCenter = this.x - centerX;
-                const pullToCenter = distanceFromCenter * 0.1;
+                const pullToCenter = distanceFromCenter * 0.15;
                 
-                // Accelerating downward movement
-                this.y += speed + (window.innerHeight - this.y) * 0.05;
+                // Accelerating fall
+                this.y += speed + (window.innerHeight - this.y) * 0.08;
                 
-                // Pull towards center more as they fall
+                // Stronger pull towards center as they fall
                 const fallProgress = this.y / window.innerHeight;
                 this.x -= pullToCenter * fallProgress;
                 
-                // Add slight rotation based on position
-                const rotation = (distanceFromCenter / centerX) * 45 * fallProgress;
+                // More pronounced rotation
+                const rotation = (distanceFromCenter / centerX) * 90 * fallProgress;
                 this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${rotation}deg)`;
                 
                 return this.y > window.innerHeight + 100;
@@ -189,7 +181,6 @@
             return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
         }
 
-        // Track mouse position
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
         document.addEventListener('mousemove', (e) => {
@@ -202,29 +193,25 @@
             const logos = [];
             const headerHeight = window.innerHeight * 0.4;
             const positions = [];
-                            const minDistance = 85; // Adjusted spacing for more logos
+            const minDistance = 85;
             
-            // Create position finding function
             function findValidPosition(size) {
                 let attempts = 0;
                 const maxAttempts = 100;
                 
                 while (attempts < maxAttempts) {
-                    // Generate position with more weight towards the center but with variation
                     const angle = Math.random() * Math.PI * 2;
                     const radius = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.6;
                     
                     const x = window.innerWidth/2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 200;
                     const y = window.innerHeight/2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 200;
                     
-                    // Check if position is valid
                     if (y < headerHeight + size || y > window.innerHeight - size || 
                         x < size || x > window.innerWidth - size) {
                         attempts++;
                         continue;
                     }
                     
-                    // Check distance from other logos
                     let valid = true;
                     for (const pos of positions) {
                         if (distance(x, y, pos.x, pos.y) < minDistance + (size + pos.size)/2) {
@@ -242,10 +229,9 @@
                 return null;
             }
             
-            // Create logos with varying sizes
-            const numLogos = 120; // Further increased number of logos
+            const numLogos = 120;
             for (let i = 0; i < numLogos; i++) {
-                const size = 50 + Math.random() * 40; // Vary size between 50 and 90 pixels
+                const size = 50 + Math.random() * 40;
                 const position = findValidPosition(size);
                 
                 if (position) {
@@ -262,12 +248,24 @@
             return logos;
         }
 
-        // Create layout
+        // Create initial layout
         let logos = createWebLayout();
-        let newLogos = [];
         let isExiting = false;
         let lastRefreshTime = Date.now();
         const refreshInterval = 9000; // 9 seconds
+        
+        function refreshLogos() {
+            isExiting = true;
+            const oldLogos = logos;
+            logos = createWebLayout(); // Create new set
+            
+            setTimeout(() => {
+                // Remove old logos
+                oldLogos.forEach(logo => logo.element.remove());
+                isExiting = false;
+                lastRefreshTime = Date.now();
+            }, 2000);
+        }
 
         // Animation loop
         function animate() {
@@ -275,26 +273,12 @@
             const timeSinceRefresh = currentTime - lastRefreshTime;
 
             if (timeSinceRefresh >= refreshInterval && !isExiting) {
-                isExiting = true;
-                newLogos = createWebLayout(); // Create new logos immediately
-                setTimeout(() => {
-                    logos = logos.filter(logo => {
-                        if (logo.y > window.innerHeight + 100) {
-                            logo.element.remove();
-                            return false;
-                        }
-                        return true;
-                    });
-                    isExiting = false;
-                    lastRefreshTime = Date.now();
-                }, 2000); // Longer cleanup time for smoother transition
+                refreshLogos();
             }
 
             if (isExiting) {
-                // Update exit animations for old logos
+                // Update exit animations for current logos
                 logos.forEach(logo => logo.exit());
-                // Update entrance animations for new logos
-                newLogos.forEach(logo => logo.update(mouseX, mouseY, currentTime));
             } else {
                 // Normal update for current set
                 logos.forEach(logo => logo.update(mouseX, mouseY, currentTime));
@@ -305,15 +289,8 @@
 
         animate();
 
-        // Handle window resize
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                document.querySelector('.container').innerHTML = '';
-                logos = createWebLayout();
-            }, 250);
-        });
+        // Initial refresh cycle
+        setInterval(refreshLogos, refreshInterval);
     </script>
 </body>
 </html>
