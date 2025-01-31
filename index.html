@@ -1,56 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+    <title>Floating Logos Landing Page</title>
     <style>
         body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* Adjusted to match a black background, update as needed */
-            color: #333; /* White text for contrast */
             margin: 0;
             padding: 0;
+            overflow: hidden;
+            background: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-
-        /* Style for the top image */
-        .top-image {
-            margin-top: 50px; /* Padding from the top */
+        .header {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
         }
-
-        .top-image img {
-            width: 200px; /* Adjust width if needed */
-            max-width: 100%; /* Keeps it responsive */
-        }
-
         h1 {
-            margin-top: 40px;
-            font-size: 3rem;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #333;
         }
-
-        p {
+        .slogan {
             font-size: 1.5rem;
-            margin-bottom: 2rem;
+            color: #666;
         }
-
-        a {
-            text-decoration: none;
-            color: #ffcc00; /* Yellow accent link */
-            font-size: 1.2rem;
+        .logo {
+            position: absolute;
+            opacity: 0.9;
+            transition: transform 0.3s ease-out;
+            will-change: transform;
+        }
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
-    <!-- Top Image -->
-    <div class="top-image">
-        <img src="https://aces.fun/images/aceslg.png" alt="Aces Logo">
+    <div class="container"></div>
+    <div class="header">
+        <h1>Welcome to Our Site</h1>
+        <p class="slogan">Where creativity meets innovation</p>
     </div>
 
-    <!-- Main Content -->
-    <h1>Aces.Fun</h1>
-    <h2>Go all in</h2>
-    <p>AI Agents for RWA Commerce</p>
-    <a href="mailto:pocket@aces.fun">Pocket Aces</a>
+    <script>
+        class FloatingLogo {
+            constructor(type, baseX, baseY, size) {
+                this.element = document.createElement('img');
+                this.element.className = 'logo';
+                this.element.src = type === 1 ? 'https://aces.fun/images/ACES-logo-01.png' : 'https://aces.fun/images/ACES-logo-02.png';
+                this.element.alt = 'Logo';
+                
+                // Size and position
+                this.size = size;
+                this.element.style.width = `${size}px`;
+                this.element.style.height = `${size}px`;
+                this.baseX = baseX;
+                this.baseY = baseY;
+                this.x = baseX;
+                this.y = -100; // Start above viewport
+                
+                // Movement properties
+                this.offsetX = 0;
+                this.offsetY = 0;
+                this.maxOffset = size * 0.3; // Movement range relative to size
+                
+                // Animation properties
+                this.angle = Math.random() * Math.PI * 2;
+                this.angleSpeed = 0.0005 + (Math.random() * 0.001);
+                this.amplitude = this.maxOffset * 0.5;
+                
+                // Entry animation
+                this.entering = true;
+                this.entranceProgress = 0;
+                this.entranceDelay = Math.random() * 1000; // Stagger entrance
+                this.entranceStartTime = Date.now() + this.entranceDelay;
+                
+                document.querySelector('.container').appendChild(this.element);
+            }
+
+            update(mouseX, mouseY, time) {
+                if (this.entering) {
+                    if (time < this.entranceStartTime) return;
+                    
+                    this.entranceProgress += 0.01;
+                    if (this.entranceProgress >= 1) {
+                        this.entering = false;
+                    }
+                    
+                    const progress = easeOutCubic(this.entranceProgress);
+                    this.y = lerp(-100, this.baseY, progress);
+                    this.x = this.baseX;
+                } else {
+                    // Subtle autonomous movement
+                    this.angle += this.angleSpeed;
+                    
+                    // Calculate base movement
+                    this.offsetX = Math.cos(this.angle) * this.amplitude;
+                    this.offsetY = Math.sin(this.angle) * this.amplitude;
+                    
+                    // Mouse influence
+                    const dx = mouseX - (this.baseX + this.size/2);
+                    const dy = mouseY - (this.baseY + this.size/2);
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = 300;
+                    
+                    if (distance < maxDistance) {
+                        const factor = (1 - distance / maxDistance) * 0.15;
+                        this.offsetX += dx * factor;
+                        this.offsetY += dy * factor;
+                        
+                        // Limit maximum offset
+                        const currentOffset = Math.sqrt(this.offsetX * this.offsetX + this.offsetY * this.offsetY);
+                        if (currentOffset > this.maxOffset) {
+                            const scale = this.maxOffset / currentOffset;
+                            this.offsetX *= scale;
+                            this.offsetY *= scale;
+                        }
+                    }
+                    
+                    // Update position
+                    this.x = this.baseX + this.offsetX;
+                    this.y = this.baseY + this.offsetY;
+                }
+
+                // Apply position
+                this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+            }
+        }
+
+        // Utility functions
+        function lerp(start, end, t) {
+            return start * (1 - t) + end * t;
+        }
+
+        function easeOutCubic(x) {
+            return 1 - Math.pow(1 - x, 3);
+        }
+
+        function distance(x1, y1, x2, y2) {
+            return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+        }
+
+        // Track mouse position
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function createWebLayout() {
+            const container = document.querySelector('.container');
+            const logos = [];
+            const headerHeight = window.innerHeight * 0.4;
+            const positions = [];
+            const minDistance = 80; // Minimum distance between logo centers
+            
+            // Create position finding function
+            function findValidPosition(size) {
+                let attempts = 0;
+                const maxAttempts = 100;
+                
+                while (attempts < maxAttempts) {
+                    // Generate position with more weight towards the center but with variation
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.4;
+                    
+                    const x = window.innerWidth/2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 200;
+                    const y = window.innerHeight/2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 200;
+                    
+                    // Check if position is valid
+                    if (y < headerHeight + size || y > window.innerHeight - size || 
+                        x < size || x > window.innerWidth - size) {
+                        attempts++;
+                        continue;
+                    }
+                    
+                    // Check distance from other logos
+                    let valid = true;
+                    for (const pos of positions) {
+                        if (distance(x, y, pos.x, pos.y) < minDistance + (size + pos.size)/2) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    
+                    if (valid) {
+                        return {x, y};
+                    }
+                    
+                    attempts++;
+                }
+                return null;
+            }
+            
+            // Create logos with varying sizes
+            const numLogos = 80; // Increased number of logos
+            for (let i = 0; i < numLogos; i++) {
+                const size = 30 + Math.random() * 30; // Vary size between 30 and 60 pixels
+                const position = findValidPosition(size);
+                
+                if (position) {
+                    positions.push({...position, size});
+                    logos.push(new FloatingLogo(
+                        i % 2,
+                        position.x,
+                        position.y,
+                        size
+                    ));
+                }
+            }
+            
+            return logos;
+        }
+
+        // Create layout
+        let logos = createWebLayout();
+
+        // Animation loop
+        function animate() {
+            const time = Date.now();
+            logos.forEach(logo => logo.update(mouseX, mouseY, time));
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                document.querySelector('.container').innerHTML = '';
+                logos = createWebLayout();
+            }, 250);
+        });
+    </script>
 </body>
 </html>
