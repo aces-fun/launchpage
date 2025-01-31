@@ -176,7 +176,7 @@
             const logos = [];
             const headerHeight = window.innerHeight * 0.4;
             const positions = [];
-                            const minDistance = 100; // Increased minimum distance between logo centers
+                            const minDistance = 85; // Adjusted spacing for more logos
             
             // Create position finding function
             function findValidPosition(size) {
@@ -186,7 +186,7 @@
                 while (attempts < maxAttempts) {
                     // Generate position with more weight towards the center but with variation
                     const angle = Math.random() * Math.PI * 2;
-                    const radius = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.4;
+                    const radius = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.6;
                     
                     const x = window.innerWidth/2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 200;
                     const y = window.innerHeight/2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 200;
@@ -217,7 +217,7 @@
             }
             
             // Create logos with varying sizes
-            const numLogos = 80; // Increased number of logos
+            const numLogos = 120; // Further increased number of logos
             for (let i = 0; i < numLogos; i++) {
                 const size = 50 + Math.random() * 40; // Vary size between 50 and 90 pixels
                 const position = findValidPosition(size);
