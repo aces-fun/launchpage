@@ -47,6 +47,7 @@
             opacity: 0.9;
             transition: transform 0.3s ease-out;
             will-change: transform;
+            transition: transform 0.05s linear;
         }
         .container {
             position: absolute;
@@ -147,14 +148,30 @@
                 }
 
                 // Apply position
+                // For regular updates, maintain the normal transform
                 this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
             }
 
             exit() {
                 this.entering = false;
-                const speed = 20;
-                // Always exit downward with acceleration
+                const centerX = window.innerWidth / 2;
+                const speed = 15;
+                
+                // Move towards center as they fall
+                const distanceFromCenter = this.x - centerX;
+                const pullToCenter = distanceFromCenter * 0.1;
+                
+                // Accelerating downward movement
                 this.y += speed + (window.innerHeight - this.y) * 0.05;
+                
+                // Pull towards center more as they fall
+                const fallProgress = this.y / window.innerHeight;
+                this.x -= pullToCenter * fallProgress;
+                
+                // Add slight rotation based on position
+                const rotation = (distanceFromCenter / centerX) * 45 * fallProgress;
+                this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${rotation}deg)`;
+                
                 return this.y > window.innerHeight + 100;
             }
         }
