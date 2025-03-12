@@ -103,11 +103,20 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            overflow: hidden;
         }
         
         spline-viewer {
             width: 100%;
             height: 100%;
+            --loading-indicator-color: #D0B264;
+        }
+        
+        @media (max-width: 768px) {
+            spline-viewer {
+                transform: scale(0.7);
+                transform-origin: center center;
+            }
         }
 
         .request-access {
