@@ -114,8 +114,21 @@
         
         @media (max-width: 768px) {
             spline-viewer {
-                transform: scale(0.7);
+                transform: scale(0.5);
                 transform-origin: center center;
+            }
+            
+            /* Custom mobile overlay to hide portions of the Spline content */
+            .spline-container::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.2);
+                pointer-events: none;
+                z-index: 2;
             }
         }
 
@@ -229,13 +242,34 @@
     <meta name="facebook-domain-verification" content="johuej3x652f38riv6arsohxkvbx7f" />
     <script src="https://kit.fontawesome.com/d02e864f21.js" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.76/build/spline-viewer.js"></script>
+    <script>
+        // Mobile-specific adjustments for Spline
+        document.addEventListener('DOMContentLoaded', function() {
+            const splineViewer = document.querySelector('spline-viewer');
+            const isMobile = window.innerWidth < 768;
+            
+            if (isMobile) {
+                // Add event listener for when Spline is loaded
+                splineViewer.addEventListener('load', function() {
+                    // Try to access the Spline canvas and apply additional transformations
+                    setTimeout(() => {
+                        const canvas = document.querySelector('spline-viewer canvas');
+                        if (canvas) {
+                            canvas.style.transform = 'scale(0.4)';
+                            canvas.style.transformOrigin = 'center center';
+                        }
+                    }, 1000);
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <!-- Request Access button removed -->
     
     <!-- Spline viewer container replaces the original container -->
     <div class="spline-container">
-        <spline-viewer url="https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode"></spline-viewer>
+        <spline-viewer url="https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode" loading-indicator="true" auto-resize="true"></spline-viewer>
     </div>
     
     <!-- Header removed -->
