@@ -42,7 +42,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: white;
+            background: black;
             font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         .header {
@@ -79,7 +79,7 @@
         /*
           Class for creating the double-drawn effect.
           1) Make the parent element 'position: relative' 
-          2) Use a pseudo-element with the same text for the “back layer”
+          2) Use a pseudo-element with the same text for the "back layer"
         */
         .double-drawn {
             position: relative;  
@@ -90,25 +90,26 @@
             position: absolute;
             top: 2px;        /* Offset vertically */
             left: 2px;       /* Offset horizontally */
-            color: #231F20;   /* “Highlight” color */
+            color: #231F20;   /* "Highlight" color */
             font-family: 'Spray Letter', sans-serif;
             z-index: -1;     /* Place behind the main text */
         }
 
-        .logo {
-            position: absolute;
-            opacity: 0.9;
-            transition: transform 0.3s ease-out;
-            will-change: transform;
-            transition: transform 0.05s linear;
-        }
-        .container {
+        /* Spline container styles */
+        .spline-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1;
         }
+        
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
         .request-access {
             position: fixed;
             top: 20px;
@@ -218,284 +219,39 @@
     </style>
     <meta name="facebook-domain-verification" content="johuej3x652f38riv6arsohxkvbx7f" />
     <script src="https://kit.fontawesome.com/d02e864f21.js" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.76/build/spline-viewer.js"></script>
 </head>
 <body>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSep_q52MkGFNJ6MPZmIHLFOUbh-1-6danxS8poudnJ0Z85oKw/viewform?usp=sharing" target="_blank" class="request-access">Request Access</a>
-    <div class="container"></div>
-    <div class="header">
-        <img src="https://aces.fun/images/acesfun-01.png" alt="ACES.FUN">
-        <!-- Double-drawn effect: "SHIT" with a yellow offset -->
-        <p class="slogan">
-            TOKENIZE YOUR 
-            <span class="spray double-drawn">SHIT</span>.
-            MONETIZE LUXURY RWAs.
-        </p>
+    <!-- Request Access button removed -->
+    
+    <!-- Spline viewer container replaces the original container -->
+    <div class="spline-container">
+        <spline-viewer url="https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode"></spline-viewer>
     </div>
-<footer class="footer">
-    <div class="footer-content">
-        <div class="social-icons">
-            <a href="https://x.com/acesdotfun" target="_blank" aria-label="X (formerly Twitter)">
-                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a href="https://t.me/acesdotfun" target="_blank" aria-label="Telegram">
-                <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-            </a>
-            <a href="https://tiktok.com/@acesdotfun" target="_blank" aria-label="TikTok">
-                <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-            </a>
-            <a href="https://instagram.com/acesdotfun" target="_blank" aria-label="Instagram">
-                <svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.419-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
-            </a>
+    
+    <!-- Header removed -->
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-icons">
+                <a href="https://x.com/acesdotfun" target="_blank" aria-label="X (formerly Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://t.me/acesdotfun" target="_blank" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </a>
+                <a href="https://tiktok.com/@acesdotfun" target="_blank" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                </a>
+                <a href="https://instagram.com/acesdotfun" target="_blank" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.419-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="https://docs.aces.fun/" target="_blank">Documentation</a>
+                <a href="https://docsend.com/v/swcy4/terms" target="_blank">PP & Terms</a>
+            </div>
         </div>
-        <div class="footer-links">
-            <a href="https://docs.aces.fun/" target="_blank">Documentation</a>
-            <a href="https://docsend.com/v/swcy4/terms" target="_blank">PP & Terms</a>
-        </div>
-    </div>
-</footer>
-
-<script>
-    // Prevent multiple initializations
-    if (!window.AcesLogoInitialized) {
-        window.AcesLogoInitialized = true;
-
-        // Utility functions
-        const lerp = (start, end, t) => start * (1 - t) + end * t;
-        const easeOutCubic = x => 1 - Math.pow(1 - x, 3);
-        const distance = (x1, y1, x2, y2) => Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-
-        class FloatingLogo {
-            constructor(type, baseX, baseY, size) {
-                this.exitDirection = Math.floor(Math.random() * 4);
-                this.element = document.createElement('img');
-                this.element.className = 'logo';
-                this.element.src = type === 1 ? 'https://aces.fun/images/ACES-logo-01.png' : 'https://aces.fun/images/ACES-logo-02.png';
-                this.element.alt = 'Logo';
-                
-                this.size = size;
-                this.element.style.width = `${size}px`;
-                this.element.style.height = `${size}px`;
-                this.baseX = baseX;
-                this.baseY = baseY;
-                this.x = baseX;
-                this.y = -100;
-                
-                this.offsetX = 0;
-                this.offsetY = 0;
-                this.maxOffset = size * 0.5;
-                
-                this.angle = Math.random() * Math.PI * 2;
-                this.angleSpeed = 0.001 + (Math.random() * 0.002);
-                this.amplitude = this.maxOffset * 0.5;
-                
-                this.entering = true;
-                this.entranceProgress = 0;
-                this.entranceDelay = Math.random() * 1000;
-                this.entranceStartTime = Date.now() + this.entranceDelay;
-                
-                document.querySelector('.container').appendChild(this.element);
-            }
-
-            update(mouseX, mouseY, time) {
-                if (this.entering) {
-                    if (time < this.entranceStartTime) return;
-                    
-                    this.entranceProgress += 0.01;
-                    if (this.entranceProgress >= 1) {
-                        this.entering = false;
-                    }
-                    
-                    const progress = easeOutCubic(this.entranceProgress);
-                    this.y = lerp(-100, this.baseY, progress);
-                    this.x = this.baseX;
-                } else {
-                    this.angle += this.angleSpeed;
-                    
-                    this.offsetX = Math.cos(this.angle) * this.amplitude;
-                    this.offsetY = Math.sin(this.angle) * this.amplitude;
-                    
-                    const dx = mouseX - (this.baseX + this.size/2);
-                    const dy = mouseY - (this.baseY + this.size/2);
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const maxDistance = 300;
-                    
-                    if (dist < maxDistance) {
-                        const factor = (1 - dist / maxDistance) * 0.15;
-                        this.offsetX += dx * factor;
-                        this.offsetY += dy * factor;
-                        
-                        const currentOffset = Math.sqrt(this.offsetX * this.offsetX + this.offsetY * this.offsetY);
-                        if (currentOffset > this.maxOffset) {
-                            const scale = this.maxOffset / currentOffset;
-                            this.offsetX *= scale;
-                            this.offsetY *= scale;
-                        }
-                    }
-                    
-                    this.x = this.baseX + this.offsetX;
-                    this.y = this.baseY + this.offsetY;
-                }
-
-                this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
-            }
-
-            exit(mode = 'normal') {
-                this.entering = false;
-                const centerX = window.innerWidth / 2;
-                const speed = mode === 'click' ? 25 : 15;
-                
-                const distanceFromCenter = this.x - centerX;
-                const pullToCenter = mode === 'click' ? distanceFromCenter * 0.3 : distanceFromCenter * 0.1;
-                
-                this.y += speed + (window.innerHeight - this.y) * 0.05;
-                
-                const fallProgress = this.y / window.innerHeight;
-                this.x -= pullToCenter * fallProgress;
-                
-                const rotation = (distanceFromCenter / centerX) * 45 * fallProgress;
-                this.element.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${rotation}deg)`;
-                
-                return this.y > window.innerHeight + 100;
-            }
-        }
-
-        // Mouse tracking
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function createWebLayout() {
-            const container = document.querySelector('.container');
-            const logos = [];
-            const headerHeight = window.innerHeight * 0.4;
-            const positions = [];
-            const minDistance = 85;
-            
-            function findValidPosition(size) {
-                let attempts = 0;
-                const maxAttempts = 100;
-                
-                while (attempts < maxAttempts) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const radius = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.6;
-                    
-                    const x = window.innerWidth/2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 200;
-                    const y = window.innerHeight/2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 200;
-                    
-                    // Avoid interfering with the header area or going offscreen
-                    if (y < headerHeight + size || y > window.innerHeight - size || 
-                        x < size || x > window.innerWidth - size) {
-                        attempts++;
-                        continue;
-                    }
-                    
-                    let valid = true;
-                    for (const pos of positions) {
-                        if (distance(x, y, pos.x, pos.y) < minDistance + (size + pos.size)/2) {
-                            valid = false;
-                            break;
-                        }
-                    }
-                    
-                    if (valid) {
-                        return {x, y};
-                    }
-                    
-                    attempts++;
-                }
-                return null;
-            }
-            
-            const numLogos = 120;
-            for (let i = 0; i < numLogos; i++) {
-                const size = 50 + Math.random() * 40;
-                const position = findValidPosition(size);
-                
-                if (position) {
-                    positions.push({...position, size});
-                    logos.push(new FloatingLogo(
-                        i % 2,
-                        position.x,
-                        position.y,
-                        size
-                    ));
-                }
-            }
-            
-            return logos;
-        }
-
-        // Layout and animation management
-        let logos = createWebLayout();
-        let newLogos = [];
-        let isExiting = false;
-        let lastRefreshTime = Date.now();
-        const refreshInterval = 999000; // time in ms
-
-        function animate() {
-            const currentTime = Date.now();
-            const timeSinceRefresh = currentTime - lastRefreshTime;
-
-            if (timeSinceRefresh >= refreshInterval && !isExiting) {
-                isExiting = true;
-                newLogos = createWebLayout();
-                setTimeout(() => {
-                    logos = logos.filter(logo => {
-                        if (logo.y > window.innerHeight + 100) {
-                            logo.element.remove();
-                            return false;
-                        }
-                        return true;
-                    });
-                    isExiting = false;
-                    lastRefreshTime = Date.now();
-                }, 2000);
-            }
-
-            if (isExiting) {
-                logos.forEach(logo => logo.exit());
-                newLogos.forEach(logo => logo.update(mouseX, mouseY, currentTime));
-            } else {
-                logos.forEach(logo => logo.update(mouseX, mouseY, currentTime));
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        // Resize handling
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                document.querySelector('.container').innerHTML = '';
-                logos = createWebLayout();
-            }, 250);
-        });
-
-        // Click event for manual logo refresh
-        document.querySelector('.container').addEventListener('click', () => {
-            if (!isExiting) {
-                isExiting = true;
-                logos.forEach(logo => logo.exit('click'));
-                
-                newLogos = createWebLayout();
-                
-                setTimeout(() => {
-                    logos.forEach(logo => logo.element.remove());
-                    logos = newLogos;
-                    newLogos = [];
-                    isExiting = false;
-                    lastRefreshTime = Date.now();
-                }, 2000);
-            }
-        });
-    }
-</script>
+    </footer>
 </body>
 </html>
-
