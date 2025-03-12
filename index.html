@@ -1,25 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aces.fun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/png" href="https://aces.fun/images/ACES-logo-01.png">
+    <meta name="description" content="AI Token Launchpad for RWAs">
+    <meta property="og:title" content="ACES.FUN">
+    <meta property="og:description" content="AI Token Launchpad for RWAs">
+    <meta property="og:image" content="https://aces.fun/images/ACES-logo-01.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:url" content="https://aces.fun">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ACES.FUN">
+    <meta name="twitter:description" content="AI Token Launchpad for RWAs">
+    <meta name="twitter:image" content="https://aces.fun/images/ACES-logo-01.png">
+    <meta property="telegram:channel" content="@aces_fun">
+    <meta name="telegram:title" content="ACES.FUN">
+    <meta name="telegram:description" content="AI Token Launchpad for RWAs">
+    <meta name="telegram:image" content="https://aces.fun/images/ACES-logo-01.png">
     <style>
-        /* Reset and base styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        @font-face {
+            font-family: 'Spray Letter';
+            src: url('https://aces.fun/fonts/SprayLetters.woff2') format('woff2'),
+                 url('https://aces.fun/fonts/SprayLetters.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'ProximaNova-Regular';
+            src: url('https://aces.fun/fonts/ProximaNova-Regular.otf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
         }
         
         body {
-            background: black;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            height: 100vh;
-            width: 100vw;
+            background: black;
+            font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .header {
+            position: fixed;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            font-size: 7rem;
+            margin-bottom: 1rem;
+            color: #333;
+            font-family: 'ProximaNova-Regular', sans-serif;
+        }
+        h1 span {
+            font-family: 'Spray Letter', sans-serif;
+            color: #CFB163;
+        }
+        .slogan {
+            font-size: 1.8rem;
+            color: #666;
         }
         
+        /* Basic Spray Letter font class */
+        .spray {
+            font-family: 'Spray Letter', sans-serif;
+        }
+        
+        /*
+          Class for creating the double-drawn effect.
+          1) Make the parent element 'position: relative' 
+          2) Use a pseudo-element with the same text for the "back layer"
+        */
+        .double-drawn {
+            position: relative;  
+            color: #CFB163;  /* Front color */
+        }
+        .double-drawn::before {
+            content: "SHIT"; /* Exact text you want repeated */
+            position: absolute;
+            top: 2px;        /* Offset vertically */
+            left: 2px;       /* Offset horizontally */
+            color: #231F20;   /* "Highlight" color */
+            font-family: 'Spray Letter', sans-serif;
+            z-index: -1;     /* Place behind the main text */
+        }
+
         /* Spline container styles */
         .spline-container {
             position: absolute;
@@ -27,10 +102,52 @@
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1;
             overflow: hidden;
         }
         
-        /* Footer styling */
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+            --loading-indicator-color: #D0B264;
+        }
+        
+        @media (max-width: 768px) {
+            spline-viewer {
+                transform: scale(0.5);
+                transform-origin: center center;
+            }
+            
+            /* Custom mobile overlay to hide portions of the Spline content */
+            .spline-container::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.2);
+                pointer-events: none;
+                z-index: 2;
+            }
+        }
+
+        .request-access {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .request-access:hover {
+            background-color: #333;
+            color: white;
+        }
         .footer {
             position: fixed;
             bottom: 0;
@@ -42,8 +159,8 @@
             z-index: 1000;
             font-size: 0.9rem;
             border-top: 2px solid #D0B264;
+            box-sizing: border-box;
         }
-        
         .footer-content {
             display: flex;
             justify-content: space-between;
@@ -51,118 +168,103 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
         .social-icons {
             display: flex;
             gap: 20px;
             align-items: center;
         }
-        
         .social-icons svg {
             width: 20px;
             height: 20px;
             fill: white;
             transition: fill 0.3s;
         }
-        
         .social-icons a:hover svg {
             fill: #D0B264;
         }
-        
         .footer-links {
             display: flex;
             gap: 20px;
         }
-        
         .footer a {
             color: white;
             text-decoration: none;
             transition: color 0.3s;
         }
-        
         .footer a:hover {
             color: #D0B264;
         }
         
-        /* Mobile-specific adjustments */
+        .header img {
+            max-width: 70%;
+            height: auto;
+        }
+        
         @media (max-width: 720px) {
+            .header {
+                width: 90%;
+                padding: 15px;
+                top: 33%;
+            }
+            .header img {
+                max-width: 100%;
+                width: 100%;
+                height: auto;
+            }
+            .slogan {
+                font-size: 1rem;
+            }
             .footer {
                 padding: 6px;
             }
-            
             .footer-content {
                 flex-direction: column;
                 gap: 5px;
             }
-            
             .social-icons {
                 gap: 25px;
             }
-            
             .social-icons a {
                 padding: 4px;
                 min-width: 30px;
                 min-height: 30px;
             }
-            
             .social-icons svg {
                 width: 20px;
                 height: 20px;
             }
-            
             .footer-links {
                 gap: 25px;
                 font-size: 0.8rem;
             }
         }
-        
-        /* Loading indicator */
-        .loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            transition: opacity 0.5s ease-out;
-        }
-        
-        .loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(208, 178, 100, 0.3);
-            border-radius: 50%;
-            border-top-color: #D0B264;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
     </style>
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.76/build/spline-viewer.js"></script>
+    <script>
+        // Check if mobile and set appropriate Spline scene
+        document.addEventListener('DOMContentLoaded', function() {
+            const splineViewer = document.querySelector('spline-viewer');
+            const isMobile = window.innerWidth < 768;
+            
+            if (isMobile) {
+                // Attempt to use alternative loading approach for mobile
+                splineViewer.setAttribute('visibility', 'hidden');
+                setTimeout(() => {
+                    splineViewer.setAttribute('visibility', 'visible');
+                }, 100);
+            }
+        });
+    </script>
 </head>
 <body>
-    <!-- Loading indicator -->
-    <div id="loading" class="loading">
-        <div class="spinner"></div>
-    </div>
-
-    <!-- Spline container -->
-    <div class="spline-container" id="splineContainer">
-        <spline-viewer id="splineViewer" url="https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode" loading-indicator="false"></spline-viewer>
+    <!-- Request Access button removed -->
+    
+    <!-- Spline viewer container replaces the original container -->
+    <div class="spline-container">
+        <spline-viewer url="https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode" loading-indicator="true" auto-resize="true"></spline-viewer>
     </div>
     
-    <!-- Footer -->
+    <!-- Header removed -->
+    
     <footer class="footer">
         <div class="footer-content">
             <div class="social-icons">
@@ -185,48 +287,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const splineViewer = document.getElementById('splineViewer');
-            const loading = document.getElementById('loading');
-            const container = document.getElementById('splineContainer');
-            
-            // Handle responsive scaling
-            function handleResize() {
-                const scale = calculateScale();
-                container.style.transform = `scale(${scale})`;
-                container.style.transformOrigin = 'center center';
-            }
-            
-            function calculateScale() {
-                const width = window.innerWidth;
-                if (width < 480) return 0.4;
-                if (width < 768) return 0.6;
-                if (width < 1024) return 0.8;
-                return 1.0;
-            }
-            
-            // Initialize on load
-            handleResize();
-            window.addEventListener('resize', handleResize);
-            
-            // Handle Spline loading
-            splineViewer.addEventListener('load', function() {
-                console.log('Spline loaded');
-                loading.classList.add('hidden');
-                
-                // Additional adjustments for mobile if needed
-                if (window.innerWidth < 768) {
-                    // Any specific mobile adjustments after load
-                }
-            });
-            
-            // Fallback if load event doesn't fire
-            setTimeout(() => {
-                loading.classList.add('hidden');
-            }, 8000);
-        });
-    </script>
 </body>
 </html>
