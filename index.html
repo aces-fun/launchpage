@@ -45,56 +45,7 @@
             background: black;
             font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-        .header {
-            position: fixed;
-            top: 35%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        h1 {
-            font-size: 7rem;
-            margin-bottom: 1rem;
-            color: #333;
-            font-family: 'ProximaNova-Regular', sans-serif;
-        }
-        h1 span {
-            font-family: 'Spray Letter', sans-serif;
-            color: #CFB163;
-        }
-        .slogan {
-            font-size: 1.8rem;
-            color: #666;
-        }
         
-        /* Basic Spray Letter font class */
-        .spray {
-            font-family: 'Spray Letter', sans-serif;
-        }
-        
-        /*
-          Class for creating the double-drawn effect.
-          1) Make the parent element 'position: relative' 
-          2) Use a pseudo-element with the same text for the "back layer"
-        */
-        .double-drawn {
-            position: relative;  
-            color: #CFB163;  /* Front color */
-        }
-        .double-drawn::before {
-            content: "SHIT"; /* Exact text you want repeated */
-            position: absolute;
-            top: 2px;        /* Offset vertically */
-            left: 2px;       /* Offset horizontally */
-            color: #231F20;   /* "Highlight" color */
-            font-family: 'Spray Letter', sans-serif;
-            z-index: -1;     /* Place behind the main text */
-        }
-
         /* Spline container styles */
         .spline-container {
             position: absolute;
@@ -103,35 +54,53 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            overflow: hidden;
         }
         
         spline-viewer {
             width: 100%;
             height: 100%;
         }
-
-        .request-access {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        
+        /* Loading indicator */
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 1001;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: opacity 0.5s ease-out;
         }
-        .request-access:hover {
-            background-color: #333;
-            color: white;
+        
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(208, 178, 100, 0.3);
+            border-radius: 50%;
+            border-top-color: #D0B264;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: #231f20;
+            background: #111111;
             padding: 10px 20px;
             text-align: center;
             z-index: 1000;
@@ -173,25 +142,7 @@
             color: #D0B264;
         }
         
-        .header img {
-            max-width: 70%;
-            height: auto;
-        }
-        
         @media (max-width: 720px) {
-            .header {
-                width: 90%;
-                padding: 15px;
-                top: 33%;
-            }
-            .header img {
-                max-width: 100%;
-                width: 100%;
-                height: auto;
-            }
-            .slogan {
-                font-size: 1rem;
-            }
             .footer {
                 padding: 6px;
             }
@@ -222,14 +173,15 @@
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.76/build/spline-viewer.js"></script>
 </head>
 <body>
-    <!-- Request Access button removed -->
-    
-    <!-- Spline viewer container replaces the original container -->
-    <div class="spline-container">
-        <spline-viewer url="https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode"></spline-viewer>
+    <!-- Loading indicator -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
     </div>
     
-    <!-- Header removed -->
+    <!-- Spline viewer container -->
+    <div class="spline-container" id="splineContainer">
+        <!-- The spline-viewer will be added dynamically via JavaScript -->
+    </div>
     
     <footer class="footer">
         <div class="footer-content">
@@ -253,5 +205,68 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Desktop Spline URL
+            const desktopSplineURL = "https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode";
+            
+            // Mobile Spline URL
+            const mobileSplineURL = "https://prod.spline.design/q9UfEdoOX1cX2y-Q/scene.splinecode"; 
+            
+            const splineContainer = document.getElementById('splineContainer');
+            const loadingIndicator = document.getElementById('loading');
+            
+            // Check if the device is mobile
+            const isMobile = window.innerWidth < 768;
+            
+            // Create and configure the Spline viewer
+            const splineViewer = document.createElement('spline-viewer');
+            
+            // Set the appropriate URL based on device type
+            if (isMobile) {
+                splineViewer.setAttribute('url', mobileSplineURL);
+                console.log("Loading mobile Spline scene");
+            } else {
+                splineViewer.setAttribute('url', desktopSplineURL);
+                console.log("Loading desktop Spline scene");
+            }
+            
+            // Add loading indicator options
+            splineViewer.setAttribute('loading-indicator', 'false'); // We use our custom loader
+            splineViewer.setAttribute('auto-resize', 'true');
+            
+            // Add the Spline viewer to the container
+            splineContainer.appendChild(splineViewer);
+            
+            // Handle loading state
+            splineViewer.addEventListener('load', function() {
+                console.log("Spline scene loaded");
+                loadingIndicator.classList.add('hidden');
+                
+                // Apply scaling for mobile if needed
+                if (isMobile) {
+                    splineContainer.style.transform = 'scale(0.7)';
+                    splineContainer.style.transformOrigin = 'center center';
+                }
+            });
+            
+            // Fallback loading timeout
+            setTimeout(() => {
+                loadingIndicator.classList.add('hidden');
+            }, 10000); // Hide loader after 10 seconds even if Spline hasn't fully loaded
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                const newIsMobile = window.innerWidth < 768;
+                
+                // Only reload if device type changed (mobile/desktop switch)
+                if (newIsMobile !== isMobile) {
+                    console.log("Device type changed, reloading appropriate Spline scene");
+                    location.reload(); // Simplest way to switch Spline scenes
+                }
+            });
+        });
+    </script>
 </body>
 </html>
