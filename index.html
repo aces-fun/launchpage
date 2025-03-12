@@ -62,39 +62,6 @@
             height: 100%;
         }
         
-        /* Loading indicator */
-        .loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            transition: opacity 0.5s ease-out;
-        }
-        
-        .loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(208, 178, 100, 0.3);
-            border-radius: 50%;
-            border-top-color: #D0B264;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
         .footer {
             position: fixed;
             bottom: 0;
@@ -173,11 +140,6 @@
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.76/build/spline-viewer.js"></script>
 </head>
 <body>
-    <!-- Loading indicator -->
-    <div id="loading" class="loading">
-        <div class="spinner"></div>
-    </div>
-    
     <!-- Spline viewer container -->
     <div class="spline-container" id="splineContainer">
         <!-- The spline-viewer will be added dynamically via JavaScript -->
@@ -215,7 +177,6 @@
             const mobileSplineURL = "https://prod.spline.design/q9UfEdoOX1cX2y-Q/scene.splinecode"; 
             
             const splineContainer = document.getElementById('splineContainer');
-            const loadingIndicator = document.getElementById('loading');
             
             // Check if the device is mobile
             const isMobile = window.innerWidth < 768;
@@ -232,29 +193,18 @@
                 console.log("Loading desktop Spline scene");
             }
             
-            // Add loading indicator options
-            splineViewer.setAttribute('loading-indicator', 'false'); // We use our custom loader
+            // Add viewer options
+            splineViewer.setAttribute('loading-indicator', 'false');
             splineViewer.setAttribute('auto-resize', 'true');
             
             // Add the Spline viewer to the container
             splineContainer.appendChild(splineViewer);
             
-            // Handle loading state
-            splineViewer.addEventListener('load', function() {
-                console.log("Spline scene loaded");
-                loadingIndicator.classList.add('hidden');
-                
-                // Apply scaling for mobile if needed
-                if (isMobile) {
-                    splineContainer.style.transform = 'scale(0.7)';
-                    splineContainer.style.transformOrigin = 'center center';
-                }
-            });
-            
-            // Fallback loading timeout
-            setTimeout(() => {
-                loadingIndicator.classList.add('hidden');
-            }, 10000); // Hide loader after 10 seconds even if Spline hasn't fully loaded
+            // Apply scaling for mobile if needed
+            if (isMobile) {
+                splineContainer.style.transform = 'scale(0.7)';
+                splineContainer.style.transformOrigin = 'center center';
+            }
             
             // Handle window resize
             window.addEventListener('resize', function() {
