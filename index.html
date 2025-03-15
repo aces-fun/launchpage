@@ -200,11 +200,7 @@
             // Add the Spline viewer to the container
             splineContainer.appendChild(splineViewer);
             
-            // Apply scaling for mobile if needed
-            if (isMobile) {
-                splineContainer.style.transform = 'scale(0.7)';
-                splineContainer.style.transformOrigin = 'center center';
-            }
+            // No scaling for mobile to keep it full screen
             
             // Handle window resize
             window.addEventListener('resize', function() {
