@@ -6,7 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="https://aces.fun/images/ACES-logo-01.png">
     <meta name="description" content="AI Token Launchpad for RWAs">
-    <!-- Other meta tags remain the same -->
+    <!-- Meta tags for social media sharing -->
+    <meta property="og:title" content="ACES.FUN">
+    <meta property="og:description" content="AI Token Launchpad for RWAs">
+    <meta property="og:image" content="https://aces.fun/images/ACES-logo-01.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:url" content="https://aces.fun">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ACES.FUN">
+    <meta name="twitter:description" content="AI Token Launchpad for RWAs">
+    <meta name="twitter:image" content="https://aces.fun/images/ACES-logo-01.png">
+    <meta property="telegram:channel" content="@aces_fun">
+    <meta name="telegram:title" content="ACES.FUN">
+    <meta name="telegram:description" content="AI Token Launchpad for RWAs">
+    <meta name="telegram:image" content="https://aces.fun/images/ACES-logo-01.png">
     <style>
         @font-face {
             font-family: 'Spray Letter';
@@ -34,88 +50,19 @@
             font-family: 'ProximaNova-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         
-        /* Spline container styles - enhanced for cross-browser compatibility */
         .spline-container {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
             overflow: hidden;
         }
         
-        /* Direct styling for the spline-viewer element */
         spline-viewer {
-            display: block;
             width: 100%;
             height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-        
-        /* Ensure iframe takes full size (Spline uses iframes internally) */
-        spline-viewer iframe {
-            width: 100% !important;
-            height: 100% !important;
-            border: none !important;
-        }
-        
-        /* Ensure canvas takes full size */
-        spline-viewer canvas,
-        .spline-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block !important;
-        }
-        
-        /* Override any Spline-specific styles that might conflict */
-        .spline-container * {
-            max-width: 100%;
-            max-height: 100%;
-        }
-        
-        /* Loading styles */
-        .loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #D0B264;
-            animation: spin 1s ease-in-out infinite;
-            z-index: 2;
-        }
-        
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        /* Fallback display in case Spline fails */
-        .fallback {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            background: black;
-            color: white;
-            font-size: 24px;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 0;
         }
         
         .footer {
@@ -192,22 +139,10 @@
         }
     </style>
     <meta name="facebook-domain-verification" content="johuej3x652f38riv6arsohxkvbx7f" />
-    <!-- Load Spline viewer with specific version to avoid potential issues with newer versions -->
+    <script src="https://kit.fontawesome.com/d02e864f21.js" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.76/build/spline-viewer.js"></script>
 </head>
 <body>
-    <!-- Loading indicator -->
-    <div class="loader" id="loader"></div>
-    
-    <!-- Fallback content in case Spline fails -->
-    <div class="fallback" id="fallback">
-        <div>
-            <h1>ACES.FUN</h1>
-            <p>AI Token Launchpad for RWAs</p>
-            <p>Please visit on a supported browser or device.</p>
-        </div>
-    </div>
-    
     <!-- Spline viewer container -->
     <div class="spline-container" id="splineContainer">
         <!-- The spline-viewer will be added dynamically via JavaScript -->
@@ -238,215 +173,48 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Enhanced browser and device detection
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-            const browser = (function() {
-                const ua = navigator.userAgent;
-                let browser = "unknown";
-                if (ua.indexOf("Firefox") > -1) browser = "firefox";
-                else if (ua.indexOf("Chrome") > -1) browser = "chrome";
-                else if (ua.indexOf("Safari") > -1) browser = "safari";
-                else if (ua.indexOf("Edge") > -1) browser = "edge";
-                else if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1) browser = "ie";
-                else if (ua.indexOf("Opera") > -1 || ua.indexOf("OPR") > -1) browser = "opera";
-                return browser;
-            })();
+            // Simplified script that focuses just on loading the Spline content
             
-            // Log environment details
-            console.log("Environment:", {
-                isMobile,
-                browser,
-                viewport: { width: window.innerWidth, height: window.innerHeight },
-                userAgent: navigator.userAgent
-            });
+            // Desktop Spline URL
+            const desktopSplineURL = "https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode";
             
-            // References to elements
+            // Mobile Spline URL
+            const mobileSplineURL = "https://prod.spline.design/q9UfEdoOX1cX2y-Q/scene.splinecode"; 
+            
             const splineContainer = document.getElementById('splineContainer');
-            const loader = document.getElementById('loader');
-            const fallback = document.getElementById('fallback');
             
-            // Clear any existing content (useful for reloads)
-            splineContainer.innerHTML = '';
+            // Check if the device is mobile - simple detection
+            const isMobile = window.innerWidth < 768;
             
-            // Spline scene URLs with fallbacks
-            const desktopScenes = [
-                "https://prod.spline.design/i2uxHHFCcHHVseCc/scene.splinecode",
-                // Fallback scene URLs if needed
-            ];
+            // Create and configure the Spline viewer
+            const splineViewer = document.createElement('spline-viewer');
             
-            const mobileScenes = [
-                "https://prod.spline.design/q9UfEdoOX1cX2y-Q/scene.splinecode",
-                // Fallback scene URLs if needed
-            ];
-            
-            // Select appropriate scenes based on device
-            const scenes = isMobile ? mobileScenes : desktopScenes;
-            let currentSceneIndex = 0;
-            let loadingAttempts = 0;
-            const maxAttempts = 3;
-            
-            // Load timeout - if Spline takes too long, show fallback
-            let loadTimeout = setTimeout(showFallback, 20000); // 20 seconds timeout
-            
-            function loadSplineScene() {
-                if (loadingAttempts >= maxAttempts) {
-                    console.error("Max loading attempts reached, showing fallback");
-                    showFallback();
-                    return;
-                }
-                
-                if (currentSceneIndex >= scenes.length) {
-                    console.error("All scenes failed to load, showing fallback");
-                    showFallback();
-                    return;
-                }
-                
-                const sceneUrl = scenes[currentSceneIndex];
-                console.log(`Attempt ${loadingAttempts + 1}: Loading scene ${currentSceneIndex + 1}/${scenes.length}: ${sceneUrl}`);
-                
-                // Remove any existing viewer
-                const existingViewer = splineContainer.querySelector('spline-viewer');
-                if (existingViewer) {
-                    splineContainer.removeChild(existingViewer);
-                }
-                
-                // Create new viewer with current scene
-                const splineViewer = document.createElement('spline-viewer');
-                splineViewer.setAttribute('url', sceneUrl);
-                splineViewer.setAttribute('loading-indicator', 'true');
-                splineViewer.setAttribute('auto-resize', 'true');
-                
-                // Additional attributes to improve compatibility
-                splineViewer.setAttribute('background-color', '#000000');
-                splineViewer.setAttribute('auto-play', 'true');
-                
-                // Set explicit dimensions
-                splineViewer.style.width = '100%';
-                splineViewer.style.height = '100%';
-                
-                // Register load event listeners
-                splineViewer.addEventListener('load', onSceneLoaded);
-                splineViewer.addEventListener('error', onSceneError);
-                
-                // Add viewer to container
-                splineContainer.appendChild(splineViewer);
-                
-                // Track attempt
-                loadingAttempts++;
+            // Set the appropriate URL based on device type
+            if (isMobile) {
+                splineViewer.setAttribute('url', mobileSplineURL);
+                console.log("Loading mobile Spline scene");
+            } else {
+                splineViewer.setAttribute('url', desktopSplineURL);
+                console.log("Loading desktop Spline scene");
             }
             
-            function onSceneLoaded(event) {
-                console.log("Spline scene loaded successfully");
-                
-                // Hide loader
-                loader.style.display = 'none';
-                
-                // Clear timeout
-                clearTimeout(loadTimeout);
-                
-                // Apply browser-specific fixes
-                applyBrowserFixes();
-                
-                // Setup verification check to ensure scene is actually visible
-                setTimeout(verifySceneVisible, 2000);
-            }
+            // Add viewer options - keeping it simple
+            splineViewer.setAttribute('loading-indicator', 'false'); // No loading indicator
+            splineViewer.setAttribute('auto-resize', 'true');
             
-            function onSceneError(event) {
-                console.error("Error loading Spline scene:", event);
-                
-                // Try next scene
-                currentSceneIndex++;
-                loadSplineScene();
-            }
-            
-            function verifySceneVisible() {
-                const canvas = splineContainer.querySelector('canvas');
-                if (!canvas || canvas.width === 0 || canvas.height === 0) {
-                    console.warn("Scene loaded but canvas not visible. Trying fixes...");
-                    
-                    // Try to force resize
-                    window.dispatchEvent(new Event('resize'));
-                    
-                    // Check again after a short delay
-                    setTimeout(() => {
-                        const canvasCheck = splineContainer.querySelector('canvas');
-                        if (!canvasCheck || canvasCheck.width === 0 || canvasCheck.height === 0) {
-                            console.error("Canvas still not visible after fixes. Trying next scene.");
-                            currentSceneIndex++;
-                            loadSplineScene();
-                        }
-                    }, 1000);
-                }
-            }
-            
-            function showFallback() {
-                console.log("Showing fallback content");
-                loader.style.display = 'none';
-                fallback.style.display = 'flex';
-                splineContainer.style.display = 'none';
-            }
-            
-            function applyBrowserFixes() {
-                // Apply browser-specific fixes
-                if (browser === 'firefox' && isMobile) {
-                    console.log("Applying Firefox mobile fixes");
-                    document.documentElement.style.overflow = 'hidden';
-                    document.body.style.overflow = 'hidden';
-                    
-                    // Force correct size on Firefox mobile
-                    const viewer = splineContainer.querySelector('spline-viewer');
-                    if (viewer) {
-                        viewer.style.position = 'fixed';
-                        viewer.style.top = '0';
-                        viewer.style.left = '0';
-                        viewer.style.bottom = '0';
-                        viewer.style.right = '0';
-                    }
-                }
-                
-                if (browser === 'safari') {
-                    console.log("Applying Safari fixes");
-                    // Safari-specific fixes if needed
-                    const viewer = splineContainer.querySelector('spline-viewer');
-                    if (viewer) {
-                        viewer.style.transform = 'translateZ(0)';
-                    }
-                }
-            }
+            // Add the Spline viewer to the container
+            splineContainer.appendChild(splineViewer);
             
             // Handle window resize
-            const resizeHandler = function() {
-                const newIsMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-                
-                console.log("Window resized - New mobile status:", newIsMobile, "New width:", window.innerWidth);
+            window.addEventListener('resize', function() {
+                const newIsMobile = window.innerWidth < 768;
                 
                 // Only reload if device type changed (mobile/desktop switch)
                 if (newIsMobile !== isMobile) {
-                    console.log("Device type changed, reloading...");
-                    location.reload();
-                } else {
-                    // Just update the container size
-                    const viewer = splineContainer.querySelector('spline-viewer');
-                    if (viewer) {
-                        viewer.style.width = '100%';
-                        viewer.style.height = '100%';
-                    }
+                    console.log("Device type changed, reloading appropriate Spline scene");
+                    location.reload(); // Simplest way to switch Spline scenes
                 }
-            };
-            
-            window.addEventListener('resize', resizeHandler);
-            
-            // Start loading the appropriate scene
-            loadSplineScene();
-            
-            // Fallback for older browsers that might not properly trigger load events
-            setTimeout(() => {
-                const viewer = splineContainer.querySelector('spline-viewer');
-                if (viewer && loader.style.display !== 'none') {
-                    console.log("No load event detected after 10s, assuming scene loaded");
-                    onSceneLoaded();
-                }
-            }, 10000);
+            });
         });
     </script>
 </body>
